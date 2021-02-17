@@ -11,12 +11,12 @@ from linebot.models import (
 )
 import os
 
-# # 正規表現
-# import re
-# # しりとり用
-# from function.judge import iskatahira, judge
-# # ヘルプ用
-# from function.help import help
+# 正規表現
+import re
+# しりとり用
+from functions.judge import iskatahira, judge
+# ヘルプ用
+from functions.help import help
 
 app = Flask(__name__)
 
