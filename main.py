@@ -57,11 +57,11 @@ def handle_message(event):
     global word_list
     # 送信元からIDを生成(取得)
     if event.source.type == 'user':
-        id = 'u' + event.source.userid
+        id = 'u' + event.source.user_id
     elif event.source.type == 'group':
-        id = 'g' + event.source.groupid
+        id = 'g' + event.source.group_id
     elif event.source.type == 'room':
-        id = 'r' + event.source.roomid
+        id = 'r' + event.source.room_id
     # IDが新規の場合、対応するword_list(list)を用意
     if not id in word_list.keys():
         word_list[id] = []
