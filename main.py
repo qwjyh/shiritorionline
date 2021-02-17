@@ -55,7 +55,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     received = event.message.text
-    if received == "!help":
+    if re.match('\!.*', received):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="This is help.")
