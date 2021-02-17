@@ -28,7 +28,7 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 # しりとり
-word_list=[]
+word_list={}
 
 @app.route("/")
 def hello():
@@ -36,7 +36,7 @@ def hello():
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
+    # get X-Line-Signature header value(リクエストID)
     signature = request.headers['X-Line-Signature']
 
     # get request body as text
@@ -54,6 +54,17 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    # 送信元からIDを生成(取得)
+    if event.source.type == 'user':
+        id = 'u' + event.source.userid
+    elif event.source.type == 'group':
+        id = 'g' + event.source.groupid
+    elif event.source.type == 'room':
+        id = 'r' + event.source.roomid
+    # IDが新規の場合、対応するword_list(list)を用意
+    if not id in word_list.keys():
+        word_list[id] = []
+
     received = event.message.text
     if re.match('\!.*', received):
         line_bot_api.reply_message(
@@ -63,7 +74,7 @@ def handle_message(event):
     else:
         word = received
         global word_list
-        status = judger(word=word, word_list=word_list)
+        status = judger(word=word, word_list=word_list[id])
         if status == 0:
             msg = "accepted"
         elif status == 1:
