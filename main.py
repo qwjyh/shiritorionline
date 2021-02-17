@@ -11,6 +11,13 @@ from linebot.models import (
 )
 import os
 
+# 正規表現
+import re
+# しりとり用
+from judge import iskatahira, judge
+# ヘルプ用
+from help import help
+
 app = Flask(__name__)
 
 #環境変数取得
@@ -48,10 +55,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     received = event.message.text
-    if received == "help":
+    if re.match('\!.*', received):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="no content")
+            TextSendMessage(text=help(received))
         )
     else:
         line_bot_api.reply_message(
