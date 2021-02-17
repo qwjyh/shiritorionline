@@ -14,9 +14,9 @@ import os
 # 正規表現
 import re
 # しりとり用
-from judge import iskatahira, judge
+from function.judge import iskatahira, judge
 # ヘルプ用
-from help import help
+from function.help import help
 
 app = Flask(__name__)
 
