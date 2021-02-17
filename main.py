@@ -58,7 +58,7 @@ def handle_message(event):
     if re.match('\!.*', received):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="This is help.")
+            TextSendMessage(text=help(received))
         )
     else:
         line_bot_api.reply_message(
