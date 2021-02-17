@@ -54,6 +54,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    global word_list
     # 送信元からIDを生成(取得)
     if event.source.type == 'user':
         id = 'u' + event.source.userid
@@ -66,6 +67,7 @@ def handle_message(event):
         word_list[id] = []
 
     received = event.message.text
+    # ヘルプ用(!hogehoge の場合、help()から返答)
     if re.match('\!.*', received):
         line_bot_api.reply_message(
             event.reply_token,
@@ -73,7 +75,6 @@ def handle_message(event):
         )
     else:
         word = received
-        global word_list
         status = judger(word=word, word_list=word_list[id])
         if status == 0:
             msg = "accepted"
