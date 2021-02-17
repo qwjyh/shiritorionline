@@ -61,9 +61,27 @@ def handle_message(event):
             TextSendMessage(text=help(received))
         )
     else:
+        word = received
+        global word_list
+        status = judger(word=word, word_list=word_list)
+        if status == 0:
+            msg = "accepted"
+        elif status == 1:
+            msg = "GAME OVER! 語尾が「ん」です"
+        elif status == 2:
+            msg = "前の単語の語尾と一致していません"
+        elif status == 3:
+            msg = "GAME OVER! 既に使用された語です"
+        elif status == 4:
+            msg = "ひらがなで入力してください"
+        # ゲームオーバーだったらリセット
+        if status in [1,3]:
+            word_list = []
+            msg = msg + '\n' + "リセットされました。"
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Your input was: " + event.message.text))
+            TextSendMessage(text=msg + '\n' + "Your input was: " + event.message.text)
+        )
 
 
 if __name__ == "__main__":
