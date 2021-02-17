@@ -14,7 +14,7 @@ import os
 # 正規表現
 import re
 # しりとり用
-from functions.judge import iskatahira, judge
+from functions.judge import iskatahira, judger
 # ヘルプ用
 from functions.help import help
 
