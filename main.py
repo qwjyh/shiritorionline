@@ -20,6 +20,9 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+# しりとり
+word_list=[]
+
 @app.route("/")
 def hello():
     return "Hello, World!"
@@ -44,9 +47,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    received = event.message.text
+    if received == "help":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="no content")
+        )
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
