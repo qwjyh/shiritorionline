@@ -88,7 +88,7 @@ def handle_message(event):
             msg = "ひらがなで入力してください"
         # ゲームオーバーだったらリセット
         if status in [1,3]:
-            word_list = []
+            word_list[id] = []
             msg = msg + '\n' + "リセットされました。"
         line_bot_api.reply_message(
             event.reply_token,
